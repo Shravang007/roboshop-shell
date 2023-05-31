@@ -5,7 +5,7 @@ cp mongodb.repo /etc/yum.repos.d/mongo.repo &>>/tmp/roboshop.log
 echo -e "\e[32mInstalling mongodb\e[0m"
 yum install mongodb-org -y &>>/tmp/roboshop.log
 
-#we have to modify confi file
+set -i -e 's/127.0.0.0/0.0.0.0/'
 
 echo -e "\e[32mstarting mongodb service\e[0m"
 systemctl enable mongod &>>/tmp/roboshop.log
