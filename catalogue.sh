@@ -9,11 +9,11 @@ echo -e "\e[33m\add application user\e[0m"
 useradd roboshop &>>/tmp/roboshop.log
 
 echo -e "\e[33mCreate Application Directory\e[0m"
-rm -rf /app
+rm -rf /app &>>/tmp/roboshop.log
 mkdir /app
 
 echo -e "\e[33mDownload application content\e[0m"
-curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue.zip &>>/tmp/roboshop.log
+curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue.zip  &>>/tmp/roboshop.log
 cd /app
 
 echo -e "\e[33mExtracting Application content\e[0m"
