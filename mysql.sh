@@ -3,6 +3,8 @@
 echo -e "\e[33mDisable  MYSQL Default Version\e[0m"
 yum module disable mysql -y &>>/tmp/roboshop.log
 
+set -e
+
 echo -e "\e[33mSetup the MySQL repo file\e[0m"
 cp /root/roboshop-shell/mysql.repo /etc/yum.repos.d/mysql.repo &>>/tmp/roboshop.log
 
