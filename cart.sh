@@ -7,7 +7,7 @@ echo -e "\e[33mInstall NodeJs\e[0m"
 yum install nodejs -y &>>/tmp/roboshop.log
 
 echo -e "\e[33mAdd Application cart\e[0m"
-cartadd roboshop &>>/tmp/roboshop.log
+useradd roboshop &>>/tmp/roboshop.log
 
 echo -e "\e[33mCreate Application Directory\e[0m"
 rm -rf /app &>>/tmp/roboshop.log
@@ -25,7 +25,7 @@ echo -e "\e[33mInstall NodeJs Dependencies\e[0m"
 npm install &>>/tmp/roboshop.log
 
 echo -e "\e[33mSetup SystemD Service\e[0m"
-cp /home/centos/roboshop-shell/cart.service /etc/systemd/system/cart.service &>>/tmp/roboshop.log
+cp /root/roboshop-shell/cart.service /etc/systemd/system/cart.service &>>/tmp/roboshop.log
 
 echo -e "\e[33mStart Cart Service\e[0m"
 systemctl daemon-reload &>>/tmp/roboshop.log
