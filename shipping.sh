@@ -1,5 +1,5 @@
 
-echo -e "\e[33m Install Maven Sever\e[0m"
+echo -e "\e[33m Install Maven Server\e[0m"
 yum install maven -y &>>/tmp/roboshop.log
 
 echo -e "\e[33m Add Application User\e[0m"
