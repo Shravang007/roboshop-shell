@@ -1,22 +1,24 @@
+source common.sh
 
+component=mysql
 
-echo -e "\e[33mDisable  MYSQL Default Version\e[0m"
-yum module disable mysql -y &>>/tmp/roboshop.log
+echo -e "${color}Disable  ${component} Default Version${nocolor}"
+yum module disable ${component} -y &>>${log_file}
 
-echo -e "\e[33mSetup the MySQL repo file\e[0m"
-cp /root/roboshop-shell/mysql.repo /etc/yum.repos.d/mysql.repo &>>/tmp/roboshop.log
+echo -e "${color}Setup the ${component} repo file${nocolor}"
+cp /root/roboshop-shell/${component}.repo /etc/yum.repos.d/${component}.repo &>>${log_file}
 
-echo -e "\e[33mInstall MySql Community Server\e[0m"
-yum install mysql-community-server -y &>>/tmp/roboshop.log
+echo -e "${color}Install ${component} Community Server${nocolor}"
+yum install ${component}-community-server -y &>>${log_file}
 
-echo -e "\e[33mStart Mysql Sever\e[0m"
-systemctl enable mysqld &>>/tmp/roboshop.log
-systemctl start mysqld &>>/tmp/roboshop.log
+echo -e "${color}Start ${component} Sever${nocolor}"
+systemctl enable ${component}d &>>${log_file}
+systemctl start ${component}d &>>${log_file}
 
-echo -e "\e[33mSetup Mysql Password\e[0m"
-mysql_secure_installation --set-root-pass RoboShop@1 &>>/tmp/roboshop.log
+echo -e "${color}Setup ${component} Password${nocolor}"
+${component}_secure_installation --set-root-pass RoboShop@1 &>>${log_file}
 
-echo -e "\e[33mCheck MYSQL Password Working\e[0m"
-mysql -uroot -pRoboShop@ &>>/tmp/roboshop.log
+echo -e "${color}Check ${component} Password Working${nocolor}"
+${component} -uroot -pRoboShop@ &>>${log_file}
 
 
