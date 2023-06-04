@@ -2,5 +2,5 @@ source common.sh
 
 component=user
 nodejs
-mongodb_schema-setup
+mongodb_schema_setup
 
