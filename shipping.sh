@@ -1,37 +1,39 @@
+source common.sh
+component=shipping
 
-echo -e "\e[33m Install Maven Server\e[0m"
-yum install maven -y &>>/tmp/roboshop.log
+echo -e "${color} Install Maven Server${nocolor}"
+yum install maven -y &>>${log_path}
 
-echo -e "\e[33m Add Application User\e[0m"
-useradd roboshop &>>/tmp/roboshop.log
+echo -e "${color} Add Application User${nocolor}"
+useradd roboshop &>>${log_path}
 
-echo -e "\e[33m Create Application Directory \e[0m"
-rm -rf /app &>>/tmp/roboshop.log
-mkdir /app &>>/tmp/roboshop.log
+echo -e "${color} Create Application Directory ${nocolor}"
+rm -rf ${app_path} &>>${log_path}
+mkdir ${app_path} &>>${log_path}
 
-echo -e "\e[33m Download Application content\e[0m"
-curl -L -o /tmp/shipping.zip https://roboshop-artifacts.s3.amazonaws.com/shipping.zip &>>/tmp/roboshop.log
+echo -e "${color} Download Application content${nocolor}"
+curl -L -o /tmp/${component}.zip https://roboshop-artifacts.s3.amazonaws.com/${component}.zip &>>${log_path}
 
-echo -e "\e[33m Extract Application content\e[0m"
-cd /app &>>/tmp/roboshop.log
-unzip /tmp/shipping.zip &>>/tmp/roboshop.log
+echo -e "${color} Extract Application content${nocolor}"
+cd ${app_path} &>>${log_path}
+unzip /tmp/${component}.zip &>>${log_path}
 
 
-echo -e "\e[33m Download Maven Dependencies\e[0m"
-mvn clean package &>>/tmp/roboshop.log
-mv target/shipping-1.0.jar shipping.jar &>>/tmp/roboshop.log
+echo -e "${color} Download Maven Dependencies${nocolor}"
+mvn clean package &>>${log_path}
+mv target/${component}-1.0.jar ${component}.jar &>>${log_path}
 
 #setup
-echo -e "\e[33m Setup SystemD Shipping Service\e[0m"
-cp /root/roboshop-shell/shipping.service  /etc/systemd/system/shipping.service &>>/tmp/roboshop.log
+echo -e "${color} Setup SystemD ${component} Service${nocolor}"
+cp /root/roboshop-shell/${component}.service  /etc/systemd/system/${component}.service &>>${log_path}
 
-echo -e "\e[33m Install Mysql Client\e[0m"
-yum install mysql -y &>>/tmp/roboshop.log
+echo -e "${color} Install Mysql Client${nocolor}"
+yum install mysql -y &>>${log_path}
 
-echo -e "\e[33m Loading Schema\e[0m"
-mysql -h <MYSQL-SERVER-IPADDRESS> -uroot -pRoboShop@1 </app/schema/shipping.sql &>>/tmp/roboshop.log
+echo -e "${color} Loading Schema${nocolor}"
+mysql -h <MYSQL-SERVER-IPADDRESS> -uroot -pRoboShop@1 <${app_path}/schema/${component}.sql &>>${log_path}
 
-echo -e "\e[33m Start Shipping Service\e[0m"
-systemctl daemon-reload &>>/tmp/roboshop.log
-systemctl enable shipping &>>/tmp/roboshop.log
-systemctl restart shipping &>>/tmp/roboshop.log
+echo -e "${color} Start ${component} Service${nocolor}"
+systemctl daemon-reload &>>${log_path}
+systemctl enable ${component} &>>${log_path}
+systemctl restart ${component} &>>${log_path}
