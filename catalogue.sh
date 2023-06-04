@@ -1,5 +1,5 @@
 component=catalogue
-color="\e[36m"
+color="\e[35m"
 nocolor="\e[0m"
 
 
