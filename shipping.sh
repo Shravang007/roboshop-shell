@@ -23,7 +23,6 @@ echo -e "${color} Download Maven Dependencies${nocolor}"
 mvn clean package &>>${log_path}
 mv target/${component}-1.0.jar ${component}.jar &>>${log_path}
 
-#setup
 echo -e "${color} Setup SystemD ${component} Service${nocolor}"
 cp /root/roboshop-shell/${component}.service  /etc/systemd/system/${component}.service &>>${log_path}
 
