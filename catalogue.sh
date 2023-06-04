@@ -32,8 +32,8 @@ cp /root/roboshop-shell/$component.service /etc/systemd/system/$component.servic
 
 echo -e "${color}Start $component Service${nocolor}"
 systemctl daemon-reload
-systemctl enable $component
-systemctl restart $component
+systemctl enable catalogue
+systemctl restart catalogue
 
 echo -e "${color}Copy Mongodb Repo File${nocolor}"
 cp /root/roboshop-shell/mongodb.repo /etc/yum.repos.d/mongodb.repo &>>/tmp/roboshop.log
