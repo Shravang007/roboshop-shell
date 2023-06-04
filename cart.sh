@@ -1,36 +1,41 @@
+component=cart
+color="\e[35m"
+nocolor="\e[0m"
+log_file="/tmp/roboshop.log"
+app_path="/app"
 
-echo -e "\e[33mConfiguring NodeJS Repos\e[0m"
-curl -sL https://rpm.nodesource.com/setup_lts.x | bash &>>/tmp/roboshop.log
+echo -e "${color}Configuring NodeJS Repos${nocolor}"
+curl -sL https://rpm.nodesource.com/setup_lts.x | bash &>>$log_file
 
 
-echo -e "\e[33mInstall NodeJs\e[0m"
-yum install nodejs -y &>>/tmp/roboshop.log
+echo -e "${color}Install NodeJs${nocolor}"
+yum install nodejs -y &>>$log_file
 
-echo -e "\e[33mAdd Application cart\e[0m"
-useradd roboshop &>>/tmp/roboshop.log
+echo -e "${color}Add Application ${component}${nocolor}"
+useradd roboshop &>>$log_file
 
-echo -e "\e[33mCreate Application Directory\e[0m"
-rm -rf /app &>>/tmp/roboshop.log
-mkdir /app &>>/tmp/roboshop.log
+echo -e "${color}Create Application Directory${nocolor}"
+rm -rf ${app_path} &>>$log_file
+mkdir ${app_path} &>>$log_file
 
-echo -e "\e[33mDownloading Application Content\e[0m"
-curl -L -o /tmp/cart.zip https://roboshop-artifacts.s3.amazonaws.com/cart.zip &>>/tmp/roboshop.log
-cd /app &>>/tmp/roboshop.log
+echo -e "${color}Downloading Application Content${nocolor}"
+curl -L -o /tmp/${component}.zip https://roboshop-artifacts.s3.amazonaws.com/${component}.zip &>>$log_file
+cd ${app_path} &>>$log_file
 
-echo -e "\e[33mExtract Application Content\e[0m"
-unzip /tmp/cart.zip &>>/tmp/roboshop.log
-cd /app &>>/tmp/roboshop.log
+echo -e "${color}Extract Application Content${nocolor}"
+unzip /tmp/${component}.zip &>>$log_file
+cd ${app_path} &>>$log_file
 
-echo -e "\e[33mInstall NodeJs Dependencies\e[0m"
-npm install &>>/tmp/roboshop.log
+echo -e "${color}Install NodeJs Dependencies${nocolor}"
+npm install &>>$log_file
 
-echo -e "\e[33mSetup SystemD Service\e[0m"
-cp /root/roboshop-shell/cart.service /etc/systemd/system/cart.service &>>/tmp/roboshop.log
+echo -e "${color}Setup SystemD Service${nocolor}"
+cp /root/roboshop-shell/${component}.service /etc/systemd/system/${component}.service &>>$log_file
 
-echo -e "\e[33mStart Cart Service\e[0m"
-systemctl daemon-reload &>>/tmp/roboshop.log
-systemctl enable cart &>>/tmp/roboshop.log
-systemctl restart cart &>>/tmp/roboshop.log
+echo -e "${color}Start ${component} Service${nocolor}"
+systemctl daemon-reload &>>$log_file
+systemctl enable ${component} &>>$log_file
+systemctl restart ${component} &>>$log_file
 
 
 
