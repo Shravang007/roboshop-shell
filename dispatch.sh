@@ -1,4 +1,4 @@
-source dispatch.sh
+source common.sh
 
 component=dispatch
 
