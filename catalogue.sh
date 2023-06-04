@@ -2,6 +2,7 @@ component=catalogue
 color="\e[33m"
 nocolor="\e[0m"
 
+
 echo -e "${color}Configuring NodeJs Repos${nocolor}"
 curl -sL https://rpm.nodesource.com/setup_lts.x | bash &>>/tmp/roboshop.log
 
