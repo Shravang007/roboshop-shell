@@ -1,40 +1,44 @@
-echo -e "\e[33mConfiguring NodeJs Repos\e[0m"
+component=catalogue
+color="${color}"
+nocolor="${nocolor}"
+
+echo -e "${color}Configuring NodeJs Repos${nocolor}"
 curl -sL https://rpm.nodesource.com/setup_lts.x | bash &>>/tmp/roboshop.log
 
-echo -e "\e[33mInstalling NodeJs\e[0m"
+echo -e "${color}Installing NodeJs${nocolor}"
 yum install nodejs -y &>>/tmp/roboshop.log
 
-echo -e "\e[33m\Add application user\e[0m"
+echo -e "${color}\Add application user${nocolor}"
 useradd roboshop &>>/tmp/roboshop.log
 
-echo -e "\e[33mCreate Application Directory\e[0m"
+echo -e "${color}Create Application Directory${nocolor}"
 rm -rf /app &>>/tmp/roboshop.log
 mkdir /app
 
-echo -e "\e[33mDownload application content\e[0m"
-curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue.zip  &>>/tmp/roboshop.log
+echo -e "${color}Download application content${nocolor}"
+curl -o /tmp/$component.zip https://roboshop-artifacts.s3.amazonaws.com/$component.zip  &>>/tmp/roboshop.log
 cd /app
 
-echo -e "\e[33mExtracting Application content\e[0m"
-unzip /tmp/catalogue.zip &>>/tmp/roboshop.log
+echo -e "${color}Extracting Application content${nocolor}"
+unzip /tmp/$component.zip &>>/tmp/roboshop.log
 cd /app
 
-echo -e "\e[33mInstall NodeJs Dependencies\e[0m"
+echo -e "${color}Install NodeJs Dependencies${nocolor}"
 npm install &>>/tmp/roboshop.log
 
-echo -e "\e[33mSetup System Service\e[0m"
-cp /root/roboshop-shell/catalogue.service /etc/systemd/system/catalogue.service &>>/tmp/roboshop.log
+echo -e "${color}Setup System Service${nocolor}"
+cp /root/roboshop-shell/$component.service /etc/systemd/system/$component.service &>>/tmp/roboshop.log
 
-echo -e "\e[33mStart Catalogue Service\e[0m"
+echo -e "${color}Start $component Service${nocolor}"
 systemctl daemon-reload
-systemctl enable catalogue
-systemctl restart catalogue
+systemctl enable $component
+systemctl restart $component
 
-echo -e "\e[33mCopy Mongodb Repo File\e[0m"
+echo -e "${color}Copy Mongodb Repo File${nocolor}"
 cp /root/roboshop-shell/mongodb.repo /etc/yum.repos.d/mongodb.repo &>>/tmp/roboshop.log
 
-echo -e "\e[33mInstall Mongodb client\e[0m"
+echo -e "${color}Install Mongodb client${nocolor}"
 yum install mongodb-org-shell -y &>>/tmp/roboshop.log
 
-echo -e "\e[33mLoad Schema\e[0m"
-mongo --host mongodb-dev.devopspractice73.online </app/schema/catalogue.js &>>/tmp/roboshop.log
+echo -e "${color}Load Schema${nocolor}"
+mongo --host mongodb-dev.devopspractice73.online </app/schema/$component.js &>>/tmp/roboshop.log
