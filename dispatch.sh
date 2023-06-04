@@ -1,32 +1,34 @@
+source dispatch.sh
 
+component=dispatch
 
-echo -e "\e[33m Install Golang\e[0m"
-yum install golang -y &>>/tmp/roboshop.log
+echo -e "${color} Install Golang${nocolor}"
+yum install golang -y &>>${log_file}
 
-echo -e "\e[33m Add Application User\e[0m"
-useradd roboshop &>>/tmp/roboshop.log
+echo -e "${color} Add Application User${nocolor}"
+useradd roboshop &>>${log_file}
 
-echo -e "\e[33m Create Application Directory\e[0m"
-rm -rf /app &>>/tmp/roboshop.log
-mkdir /app &>>/tmp/roboshop.log
+echo -e "${color} Create Application Directory${nocolor}"
+rm -rf ${app_path} &>>${log_file}
+mkdir ${app_path} &>>${log_file}
 
-echo -e "\e[33m Download Dispatch Content\e[0m"
-curl -L -o /tmp/dispatch.zip https://roboshop-artifacts.s3.amazonaws.com/dispatch.zip &>>/tmp/roboshop.log
+echo -e "${color} Download Dispatch Content${nocolor}"
+curl -L -o /tmp/dispatch.zip https://roboshop-artifacts.s3.amazonaws.com/dispatch.zip &>>${log_file}
 
-echo -e "\e[33m Extract Dispatch Content\e[0m"
-cd /app &>>/tmp/roboshop.log
-unzip /tmp/dispatch.zip &>>/tmp/roboshop.log
+echo -e "${color} Extract Dispatch Content${nocolor}"
+cd ${app_path} &>>${log_file}
+unzip /tmp/dispatch.zip &>>${log_file}
 
-echo -e "\e[33m Start Golang\e[0m"
-cd /app &>>/tmp/roboshop.log
-go mod init dispatch &>>/tmp/roboshop.log
-go get &>>/tmp/roboshop.log
-go build &>>/tmp/roboshop.log
+echo -e "${color} Start Golang${nocolor}"
+cd ${app_path} &>>${log_file}
+go mod init dispatch &>>${log_file}
+go get &>>${log_file}
+go build &>>${log_file}
 
-echo -e "\e[33m Setup SystemD Dispatch Service\e[0m"
-cp /root/roboshop-shell/dispatch.service /etc/systemd/system/dispatch.service &>>/tmp/roboshop.log
+echo -e "${color} Setup SystemD Dispatch Service${nocolor}"
+cp /root/roboshop-shell/dispatch.service /etc/systemd/system/dispatch.service &>>${log_file}
 
-echo -e "\e[33m Start Dispatch Service\e[0m"
-systemctl daemon-reload &>>/tmp/roboshop.log
-systemctl enable dispatch &>>/tmp/roboshop.log
-systemctl start dispatch &>>/tmp/roboshop.log
+echo -e "${color} Start Dispatch Service${nocolor}"
+systemctl daemon-reload &>>${log_file}
+systemctl enable dispatch &>>${log_file}
+systemctl start dispatch &>>${log_file}
