@@ -18,7 +18,7 @@ unzip /tmp/frontend.zip &>>/tmp/roboshop.log
 
 
 echo -e "${color} Update Frontend Configuration ${nocolor}"
-cp /home/centos/roboshop-shell/roboshop.conf /etc/nginx/default.d/roboshop.conf &>>/tmp/roboshop.log
+cp /root/roboshop-shell/roboshop.conf /etc/nginx/default.d/roboshop.conf &>>/tmp/roboshop.log
 
 
 echo -e "${color} Starting Nginx Server ${nocolor}"
