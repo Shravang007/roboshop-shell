@@ -27,7 +27,7 @@ echo -e "${color}Install NodeJs Dependencies${nocolor}"
 npm install &>>$log_file
 
 echo -e "${color}Setup System Service${nocolor}"
-cp /root/roboshop-shell/$component.service /etc/systemd/system/$component.service &>>$log_file
+cp /root/roboshop-shell/$component.service /etc/systemd/system/{$component}.service &>>$log_file
 
 echo -e "${color}Start $component Service${nocolor}"
 systemctl daemon-reload
