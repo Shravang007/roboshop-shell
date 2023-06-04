@@ -1,44 +1,47 @@
+source common.sh
 
-echo -e "\e[33mConfiguring NodeJS Repos\e[0m"
-curl -sL https://rpm.nodesource.com/setup_lts.x | bash &>>/tmp/roboshop.log
+component=user
+
+echo -e "${color}Configuring NodeJS Repos${nocolor}"
+curl -sL https://rpm.nodesource.com/setup_lts.x | bash &>>${log_file}
 
 
-echo -e "\e[33mInstall NodeJs\e[0m"
-yum install nodejs -y &>>/tmp/roboshop.log
+echo -e "${color}Install NodeJs${nocolor}"
+yum install nodejs -y &>>${log_file}
 
-echo -e "\e[33mAdd Application User\e[0m"
-useradd roboshop &>>/tmp/roboshop.log
+echo -e "${color}Add Application ${component}${nocolor}"
+${component}add roboshop &>>${log_file}
 
-echo -e "\e[33mCreate Application Directory\e[0m"
-rm -rf /app &>>/tmp/roboshop.log
-mkdir /app &>>/tmp/roboshop.log
+echo -e "${color}Create Application Directory${nocolor}"
+rm -rf ${app_path} &>>${log_file}
+mkdir ${app_path} &>>${log_file}
 
-echo -e "\e[33mDownloading Application Content\e[0m"
-curl -L -o /tmp/user.zip https://roboshop-artifacts.s3.amazonaws.com/user.zip &>>/tmp/roboshop.log
-cd /app &>>/tmp/roboshop.log
+echo -e "${color}Downloading Application Content${nocolor}"
+curl -L -o /tmp/${component}.zip https://roboshop-artifacts.s3.amazonaws.com/${component}.zip &>>${log_file}
+cd ${app_path} &>>${log_file}
 
-echo -e "\e[33mExtract Application Content\e[0m"
-unzip /tmp/user.zip &>>/tmp/roboshop.log
-cd /app &>>/tmp/roboshop.log
+echo -e "${color}Extract Application Content${nocolor}"
+unzip /tmp/${component}.zip &>>${log_file}
+cd ${app_path} &>>${log_file}
 
-echo -e "\e[33mInstall NodeJs Dependencies\e[0m"
-npm install &>>/tmp/roboshop.log
+echo -e "${color}Install NodeJs Dependencies${nocolor}"
+npm install &>>${log_file}
 
-echo -e "\e[33mSetup SystemD Service\e[0m"
-cp /root/roboshop-shell/user.service /etc/systemd/system/user.service &>>/tmp/roboshop.log
+echo -e "${color}Setup SystemD Service${nocolor}"
+cp /root/roboshop-shell/${component}.service /etc/systemd/system/${component}.service &>>${log_file}
 
-echo -e "\e[33mStart User Service\e[0m"
-systemctl daemon-reload &>>/tmp/roboshop.log
-systemctl enable user &>>/tmp/roboshop.log
-systemctl restart user &>>/tmp/roboshop.log
+echo -e "${color}Start ${component} Service${nocolor}"
+systemctl daemon-reload &>>${log_file}
+systemctl enable ${component} &>>${log_file}
+systemctl restart ${component} &>>${log_file}
 
-echo -e "\e[33mCopy Mongodb Repo File\e[0m"
-cp /root/roboshop-shell/mongodb.repo /etc/yum.repos.d/mongodb.repo &>>/tmp/roboshop.log
+echo -e "${color}Copy Mongodb Repo File${nocolor}"
+cp /root/roboshop-shell/mongodb.repo /etc/yum.repos.d/mongodb.repo &>>${log_file}
 
-echo -e "\e[33mInstall Mongodb Service\e[0m"
-yum install mongodb-org-shell -y &>>/tmp/roboshop.log
+echo -e "${color}Install Mongodb Service${nocolor}"
+yum install mongodb-org-shell -y &>>${log_file}
 
-echo -e "\e[33mLoad Schema\e[0m"
-mongo --host mongodb-dev.devopspractice73.online </app/schema/user.js &>>/tmp/roboshop.log
+echo -e "${color}Load Schema${nocolor}"
+mongo --host mongodb-dev.devopspractice73.online <${app_path}/schema/${component}.js &>>${log_file}
 
 
