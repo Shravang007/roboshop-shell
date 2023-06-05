@@ -41,7 +41,7 @@ systemd_setup() {
   echo -e "${color}Setup System Service${nocolor}"
   cp /root/roboshop-shell/${component}.service /etc/systemd/system/${component}.service &>>$log_file
 
-  echo -e "${color} Start ${{component}} Service${nocolor}"
+  echo -e "${color} Start ${component} Service${nocolor}"
     systemctl daemon-reload &>>${log_file}
     systemctl enable ${component} &>>${log_file}
     systemctl restart ${component} &>>${log_file}
