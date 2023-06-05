@@ -65,6 +65,7 @@ nodejs(){
 systemd_setup() {
   echo -e "${color}Setup System Service${nocolor}"
   cp /root/roboshop-shell/${component}.service /etc/systemd/system/${component}.service &>>$log_file
+  sed -i -e "s/roboshop_app_password/$roboshop_app_password/"  /etc/systemd/system/$component.service
   stat_check $?
 
   echo -e "${color} Start ${component} Service${nocolor}"
@@ -75,7 +76,7 @@ systemd_setup() {
 
 }
 
-mongo_schema_setup() {
+mongodb_schema_setup() {
 
   echo -e "${color}Copy Mongodb Repo File${nocolor}"
   cp /root/roboshop-shell/mongodb.repo /etc/yum.repos.d/mongodb.repo &>>${log_file}
@@ -105,7 +106,7 @@ maven() {
   mv target/${component}-1.0.jar ${component}.jar &>>${log_file}
   stat_check $?
 
-  mysql_mongo_schema_setup
+  mysql_schema_setup
 
   systemd_setup
 
@@ -118,7 +119,7 @@ mysql_schema_setup() {
   stat_check $?
 
   echo -e "${color} Loading Schema${nocolor}"
-  mysql -h mysql-dev.devopspractice73.online -uroot -pRoboShop@1 <${app_path}/schema/${component}.sql &>>${log_file}
+  mysql -h mysql-dev.devopspractice73.online -uroot -p${mysql_root_password} <${app_path}/schema/${component}.sql &>>${log_file}
   stat_check $?
 
   }
