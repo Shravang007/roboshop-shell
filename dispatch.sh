@@ -5,19 +5,7 @@ component=dispatch
 echo -e "${color} Install Golang${nocolor}"
 yum install golang -y &>>${log_file}
 
-echo -e "${color} Add Application User${nocolor}"
-useradd roboshop &>>${log_file}
-
-echo -e "${color} Create Application Directory${nocolor}"
-rm -rf ${app_path} &>>${log_file}
-mkdir ${app_path} &>>${log_file}
-
-echo -e "${color} Download ${component} Content${nocolor}"
-curl -L -o /tmp/${component}.zip https://roboshop-artifacts.s3.amazonaws.com/${component}.zip &>>${log_file}
-
-echo -e "${color} Extract ${component} Content${nocolor}"
-cd ${app_path} &>>${log_file}
-unzip /tmp/${component}.zip &>>${log_file}
+ app_presetup
 
 echo -e "${color} Start Golang${nocolor}"
 cd ${app_path} &>>${log_file}
