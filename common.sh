@@ -137,3 +137,17 @@ mysql_schema_setup() {
 
     systemd_setup
   }
+
+  golang() {
+    echo -e "${color} Install Golang${nocolor}"
+    yum install golang -y &>>${log_file}
+
+
+    echo -e "${color} Start Golang${nocolor}"
+    cd ${app_path} &>>${log_file}
+    go mod init ${component} &>>${log_file}
+    go get &>>${log_file}
+    go build &>>${log_file}
+
+
+  }
