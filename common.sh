@@ -26,7 +26,7 @@ nodejs(){
   echo -e "${color}Configuring NodeJs Repos${nocolor}"
   curl -sL https://rpm.nodesource.com/setup_lts.x | bash &>>$log_file
 
-  echo -e "${color}Installing NodeJs${nocolor}"
+  echo -e "${color}Install NodeJs${nocolor}"
   yum install nodejs -y &>>$log_file
 
   app_presetup
