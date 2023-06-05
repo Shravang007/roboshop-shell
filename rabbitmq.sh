@@ -13,7 +13,7 @@ yum install ${component}-server -y &>>${log_file}
 
 echo -e "${color} Start ${component} Service${nocolor}"
 systemctl enable ${component}-server &>>${log_file}
-systemctl start ${component}-server &>>${log_file}
+systemctl restart ${component}-server &>>${log_file}
 
 echo -e "${color} Add ${component} Application User${nocolor}"
 ${component}ctl add_user roboshop roboshop123 &>>${log_file}
