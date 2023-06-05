@@ -36,16 +36,17 @@ nodejs(){
 
   systemd_setup
 
-  echo -e "${color}Start ${component} Service${nocolor}"
-  systemctl daemon-reload
-  systemctl enable ${component}
-  systemctl restart ${component}
-
 }
 
 systemd_setup() {
   echo -e "${color}Setup System Service${nocolor}"
   cp /root/roboshop-shell/${component}.service /etc/systemd/system/${component}.service &>>$log_file
+
+  echo -e "${color} Start ${{component}} Service${nocolor}"
+    systemctl daemon-reload &>>${log_file}
+    systemctl enable ${component} &>>${log_file}
+    systemctl restart ${component} &>>${log_file}
+
 }
 
 mongo_schema_setup() {
@@ -73,11 +74,18 @@ maven() {
   mvn clean package &>>${log_file}
   mv target/${component}-1.0.jar ${component}.jar &>>${log_file}
 
+  mysql_mongo_schema_setup
+
   systemd_setup
 
-  echo -e "${color} Start ${{component}} Service${nocolor}"
-  systemctl daemon-reload &>>${log_file}
-  systemctl enable ${component} &>>${log_file}
-  systemctl restart ${component} &>>${log_file}
-
 }
+
+
+mysql_schema_setup() {
+  echo -e "${color} Install Mysql Client${nocolor}"
+  yum install mysql -y &>>${log_file}
+
+  echo -e "${color} Loading Schema${nocolor}"
+  mysql -h mysql-dev.devopspractice73.online -uroot -pRoboShop@1 <${app_path}/schema/${component}.sql &>>${log_file}
+
+  }
