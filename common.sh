@@ -89,3 +89,16 @@ mysql_schema_setup() {
   mysql -h mysql-dev.devopspractice73.online -uroot -pRoboShop@1 <${app_path}/schema/${component}.sql &>>${log_file}
 
   }
+
+  python() {
+    echo -e "${color} Install Python ${nocolor}"
+    yum install python36 gcc python3-devel -y &>>/tmp/roboshop.log
+
+    app_presetup
+
+    echo -e "${color} Install Application Dependencies ${nocolor}"
+    cd /app
+    pip3.6 install -r requirements.txt &>>/tmp/roboshop.log
+
+    systemd_setup
+  }
