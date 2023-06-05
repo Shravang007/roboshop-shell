@@ -3,5 +3,5 @@ source common.sh
 component=catalogue
 
 nodejs
-mongo_schema_setup
+mongodb_schema_setup
 
